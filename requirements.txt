@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+semgrep
+bandit
+transformers
+huggingface_hub
+scanapi
+graphviz
