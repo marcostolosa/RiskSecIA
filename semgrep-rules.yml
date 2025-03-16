@@ -1,0 +1,75 @@
+rules:
+  - id: owasp-top-10-web
+    languages:
+      - python
+      - javascript
+      - java
+      - go
+      - csharp
+      - php
+      - ruby
+    patterns:
+      - pattern: eval(...)
+      - pattern: exec(...)
+      - pattern: os.system(...)
+      - pattern: subprocess.Popen(...)
+      - pattern: subprocess.run(...)
+      - pattern: request.get(...)
+      - pattern: request.post(...)
+      - pattern: $X.query(...)
+      - pattern: jwt.decode(...)
+    message: "🚨 [OWASP Web] Potencial falha de segurança detectada."
+    severity: ERROR
+    metadata:
+      cwe: ["CWE-78", "CWE-79", "CWE-89", "CWE-200"]
+      owasp: ["A01-Injection", "A03-Sensitive Data Exposure"]
+
+  - id: owasp-top-10-api
+    languages:
+      - python
+      - javascript
+      - java
+      - go
+      - csharp
+      - php
+      - ruby
+    patterns:
+      - pattern: jwt.decode(...)
+      - pattern: request.get(...)
+      - pattern: request.post(...)
+      - pattern: response.write(...)
+      - pattern: app.use(...)
+    message: "🚨 [OWASP API] Possível vulnerabilidade de API detectada."
+    severity: ERROR
+    metadata:
+      owasp: ["API1-Broken Object Level Authorization", "API3-Excessive Data Exposure"]
+
+  - id: owasp-top-10-mobile
+    languages:
+      - java
+      - kotlin
+      - swift
+    patterns:
+      - pattern: KeyStore.getInstance(...)
+      - pattern: Cipher.getInstance(...)
+      - pattern: SharedPreferences.getString(...)
+      - pattern: getExternalFilesDir(...)
+    message: "🚨 [OWASP Mobile] Possível falha de segurança em aplicativos móveis."
+    severity: ERROR
+    metadata:
+      owasp: ["M1-Improper Platform Usage", "M4-Insecure Authentication"]
+
+  - id: command-injection
+    patterns:
+      - pattern: os.system(...)
+      - pattern-inside: |
+          $VAR = input(...)
+          ...
+          os.system($VAR)
+    message: "[!] Possivel Command Injection detectado! Evite usar os.system() com entrada do usuário."
+    severity: ERROR
+    languages:
+      - python
+    metadata:
+      cwe: "CWE-78"
+      source: "https://cwe.mitre.org/data/definitions/78.html"

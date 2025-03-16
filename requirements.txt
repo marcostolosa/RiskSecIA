@@ -1,7 +1,9 @@
 fastapi
+termcolor
 uvicorn
 semgrep
 bandit
+multiprocessing
 transformers
 huggingface_hub
 scanapi
